@@ -1,22 +1,37 @@
 # Predictive Modelling Final Exam Score
 
-Load required libraries
 
+## 📌 Project Overview
+
+This project uses linear regression to analyze the factors affecting students' final exam scores, including study habits, attendance, and prior performance.
+
+---
+
+## 📊 Full R Code
+
+```r id="v2k8rm"
+# ----------------------------------
+# Load required libraries
+# ----------------------------------
 library(car)
 
-Load data
+# ----------------------------------
+# Load data
+# ----------------------------------
+# Set working directory (adjust as needed)
+setwd("C:/Users/User/OneDrive - University of Kent/Predictive Modelling/Assessment I")
 
-Read dataset
+# Read dataset
 finalexam <- read.csv("final_exam.csv", header = TRUE)
 
-
-Data summary
-
+# ----------------------------------
+# Data summary
+# ----------------------------------
 summary(finalexam)
 
-
+# ----------------------------------
 # Full regression model
-
+# ----------------------------------
 finalexam_model <- lm(
   FinalExamScores ~ StudyHours + Attendance + PreviousExamScores +
     SleepHours + ParticipationinStudyGroups + HomeworkCompletion +
@@ -26,16 +41,18 @@ finalexam_model <- lm(
 
 summary(finalexam_model)
 
+# ----------------------------------
 # Histogram of final exam scores
-
+# ----------------------------------
 hist(
   finalexam$FinalExamScores,
   main = "Histogram of Final Exam Scores",
   xlab = "Final Exam Scores"
 )
 
+# ----------------------------------
 # Boxplot: Attendance vs Scores
-
+# ----------------------------------
 finalexam$AttendanceLabel <- factor(
   finalexam$Attendance,
   levels = c(0, 1),
@@ -51,8 +68,9 @@ boxplot(
   col = c("lightcoral", "lightblue")
 )
 
+# ----------------------------------
 # Scatterplot: Previous vs Final scores
-
+# ----------------------------------
 exam_fit <- lm(FinalExamScores ~ PreviousExamScores, data = finalexam)
 
 plot(
@@ -65,8 +83,9 @@ plot(
 
 abline(exam_fit)
 
+# ----------------------------------
 # Reduced regression model
-
+# ----------------------------------
 finalexam_reduced <- lm(
   FinalExamScores ~ StudyHours + PreviousExamScores +
     SleepHours + ParticipationinStudyGroups + HomeworkCompletion,
@@ -75,17 +94,20 @@ finalexam_reduced <- lm(
 
 summary(finalexam_reduced)
 
-Multicollinearity check
-
+# ----------------------------------
+# Multicollinearity check
+# ----------------------------------
 vif(finalexam_reduced)
 
-Residual diagnostics
-
+# ----------------------------------
+# Residual diagnostics
+# ----------------------------------
 par(mfrow = c(2, 2))
 plot(finalexam_reduced)
 
+# ----------------------------------
 # Prediction: No study group participation
-
+# ----------------------------------
 newdata_no_sg <- data.frame(
   StudyHours = 1:6,
   Attendance = 1,
@@ -110,9 +132,9 @@ plot(
 )
 points(1:6, predicted_no_sg)
 
-
+# ----------------------------------
 # Prediction: With study group participation
-
+# ----------------------------------
 newdata_sg <- data.frame(
   StudyHours = 1:6,
   Attendance = 1,
@@ -135,3 +157,8 @@ plot(
   main = "Predicted Scores (With Study Groups)"
 )
 points(1:6, predicted_sg)
+Conclusion
+This project demonstrates that final exam performance can be effectively predicted using key academic and behavioural factors, with previous exam scores and study habits emerging as the most influential variables. 
+
+```
+
